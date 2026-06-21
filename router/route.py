@@ -96,11 +96,11 @@ def collect_findings(decision: dict[str, Any], payload: dict[str, Any]) -> list[
 
     # Prefer grouped payload findings (token-efficient)
     for finding in payload.get("findings", []):
-        add_finding(finding, "cursor_payload")
+        add_finding(finding, "claude_payload")
 
     # Fall back to decision candidates when payload is empty
     if not payload.get("findings"):
-        for finding in decision.get("cursor_candidates", []):
+        for finding in decision.get("claude_candidates", []):
             add_finding(finding, "decision")
 
     if not collected:
@@ -159,7 +159,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Route findings to security agents")
     parser.add_argument("--agents-dir", required=True, help="Path to security-agents repository root")
     parser.add_argument("--decision", default="artifacts/decision.json")
-    parser.add_argument("--payload", default="artifacts/cursor_payload.json")
+    parser.add_argument("--payload", default="artifacts/claude_payload.json")
     parser.add_argument("--output-dir", default="artifacts")
     args = parser.parse_args()
 
